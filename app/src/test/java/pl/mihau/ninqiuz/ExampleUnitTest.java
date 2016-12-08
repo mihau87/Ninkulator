@@ -1,4 +1,4 @@
-package pl.mihau.ninkulator;
+package pl.mihau.ninqiuz;
 
 import org.junit.Test;
 

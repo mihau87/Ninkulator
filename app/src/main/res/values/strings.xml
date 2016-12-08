@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Ninkulator</string>
-    <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="app_name">Ninqiuz</string>
+    <string name="menu_button_ninquiz">Ninqiuz</string>
+    <string name="menu_button_nikulator">Ninkulator</string>
+    <string name="radiobutton_plus">Dodawanie</string>
+    <string name="radiobutton_minus">Odejmowanie</string>
 </resources>
