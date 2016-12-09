@@ -158,8 +158,38 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="="
+            android:text="C"
             android:layout_weight="1"
+            android:id="@+id/clearButton"/>
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:minHeight="20dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="2">
+
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:minHeight="20dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="0"
+            android:layout_weight="1"
+            android:id="@+id/button0"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="="
+            android:layout_weight="75"
             android:id="@+id/countButton"/>
         <Space
             android:layout_width="20dp"
