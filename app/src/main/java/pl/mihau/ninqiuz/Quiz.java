@@ -27,10 +27,10 @@ public class Quiz extends AppCompatActivity {
     TextView questionTextView;
     TextView lifeTextView;
     TextView pointsTextView;
-    int life = 3;
-    int points = 0;
+    int life;
+    int points;
     int startFlag = 0;
-
+    int goodAnswer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,46 +73,55 @@ public class Quiz extends AppCompatActivity {
         checkButton.setOnClickListener (new View.OnClickListener()
                                         {
                                             @Override
-                                            public void onClick(View view)
-                                            {
+                                            public void onClick(View view) {
 
-        if (startFlag == 0){
+                                                if (startFlag == 0) {
+                                                    answerTextView.setText("");
+                                                    int life = 3;
+                                                    int points = 0;
+                                                    startFlag = 1;
+                                                    goodAnswer = randomEquation();
+                                                    checkButton.setText("Sprawdź");
+                                                    button0.setVisibility(View.VISIBLE);
+                                                    button1.setVisibility(View.VISIBLE);
+                                                    button2.setVisibility(View.VISIBLE);
+                                                    button3.setVisibility(View.VISIBLE);
+                                                    button4.setVisibility(View.VISIBLE);
+                                                    button5.setVisibility(View.VISIBLE);
+                                                    button6.setVisibility(View.VISIBLE);
+                                                    button7.setVisibility(View.VISIBLE);
+                                                    button8.setVisibility(View.VISIBLE);
+                                                    button9.setVisibility(View.VISIBLE);
+                                                    clearButton.setVisibility(View.VISIBLE);
+                                                    lifeTextView.setVisibility(View.VISIBLE);
+                                                    pointsTextView.setVisibility(View.VISIBLE);
+                                                    answerTextView.setVisibility(View.VISIBLE);
+                                                }else
+                                                {
+                                                if (TextUtils.isEmpty(answerTextView.getText().toString()))
+                                                {
+                                                    return;
+                                                }
+                                                else {
+                                                    if (checkAnswer(Integer.parseInt(answerTextView.getText().toString()), goodAnswer)) {
+                                                        answerTextView.setText("Dobra odpowiedź");
+                                                        pointsTextView.setText("Punkty: " + points);
+                                                        goodAnswer = randomEquation();
+                                                        answerTextView.setText("");
+                                                        checkWin(points);
+                                                        checkLoose(life);
+                                                    } else {
+                                                        answerTextView.setText("Zła odpowiedź");
+                                                        life = life - 1;
+                                                        lifeTextView.setText("Życie: " + life);
+                                                        goodAnswer = randomEquation();
+                                                        answerTextView.setText("");
+//                                                        checkWin(points);
+//                                                        checkLoose(life);
+                                                    }
+                                               }
 
-            checkButton.setText("Sprawdź");
-            button0.setVisibility(View.VISIBLE);
-            button1.setVisibility(View.VISIBLE);
-            button2.setVisibility(View.VISIBLE);
-            button3.setVisibility(View.VISIBLE);
-            button4.setVisibility(View.VISIBLE);
-            button5.setVisibility(View.VISIBLE);
-            button6.setVisibility(View.VISIBLE);
-            button7.setVisibility(View.VISIBLE);
-            button8.setVisibility(View.VISIBLE);
-            button9.setVisibility(View.VISIBLE);
-            clearButton.setVisibility(View.VISIBLE);
-            clearButton.setEnabled(false);
-            lifeTextView.setVisibility(View.VISIBLE);
-            pointsTextView.setVisibility(View.VISIBLE);
-            answerTextView.setVisibility(View.VISIBLE);
-
-           // randomEquation();
-            int goodAnswer = 21;
-            do{
-                Random r = new Random();
-                int firstNum = r.nextInt(20 + 1);
-                int secndNum = r.nextInt(20 + 1);
-
-                goodAnswer = firstNum + secndNum;
-
-                questionTextView.setText(firstNum + " + " + secndNum + " = ?");
-
-        }while(goodAnswer > 20 || goodAnswer < 0);
-        }
-        else {
-            return;
-        }                                   }
-                                        }
-        );
+                                            }}});
 
         clearButton.setOnClickListener (new View.OnClickListener()
                                         {
@@ -121,6 +130,7 @@ public class Quiz extends AppCompatActivity {
                                             {
 
                                                 answerTextView.setText("");
+                                                clearButton.setEnabled(true);
                                             }
                                         }
         );
@@ -131,6 +141,7 @@ public class Quiz extends AppCompatActivity {
                                         public void onClick(View view){
 
                                             answerTextView.append((button0.getText().toString()));
+                                            clearButton.setEnabled(true);
 
                                         }
                                     }
@@ -142,6 +153,7 @@ public class Quiz extends AppCompatActivity {
                                         public void onClick(View view){
 
                                             answerTextView.append((button1.getText().toString()));
+                                            clearButton.setEnabled(true);
 
                                         }
                                     }
@@ -152,6 +164,7 @@ public class Quiz extends AppCompatActivity {
                                         @Override
                                         public void onClick(View view){
                                             answerTextView.append((button2.getText().toString()));
+                                            clearButton.setEnabled(true);
 
                                         }
                                     }
@@ -162,6 +175,7 @@ public class Quiz extends AppCompatActivity {
                                         @Override
                                         public void onClick(View view){
                                             answerTextView.append((button3.getText().toString()));
+                                            clearButton.setEnabled(true);
 
                                         }
                                     }
@@ -171,6 +185,7 @@ public class Quiz extends AppCompatActivity {
                                         @Override
                                         public void onClick(View view){
                                             answerTextView.append((button4.getText().toString()));
+                                            clearButton.setEnabled(true);
 
                                         }
                                     }
@@ -180,6 +195,7 @@ public class Quiz extends AppCompatActivity {
                                         @Override
                                         public void onClick(View view){
                                             answerTextView.append((button5.getText().toString()));
+                                            clearButton.setEnabled(true);
 
                                         }
                                     }
@@ -189,6 +205,7 @@ public class Quiz extends AppCompatActivity {
                                         @Override
                                         public void onClick(View view){
                                             answerTextView.append((button6.getText().toString()));
+                                            clearButton.setEnabled(true);
                                         }
                                     }
         );
@@ -197,6 +214,7 @@ public class Quiz extends AppCompatActivity {
                                         @Override
                                         public void onClick(View view){
                                             answerTextView.append((button7.getText().toString()));
+                                            clearButton.setEnabled(true);
                                         }
                                     }
         );
@@ -205,6 +223,7 @@ public class Quiz extends AppCompatActivity {
                                         @Override
                                         public void onClick(View view){
                                             answerTextView.append((button8.getText().toString()));
+                                            clearButton.setEnabled(true);
 
                                         }
                                     }
@@ -214,50 +233,96 @@ public class Quiz extends AppCompatActivity {
                                         @Override
                                         public void onClick(View view){
                                             answerTextView.append((button9.getText().toString()));
+                                            clearButton.setEnabled(true);
                                         }
                                     }
         );
-
-
-
-//        public boolean checkWin(int currentPoint)
-//        {
-//            if (currentPoint == 10)
-//            {
-//               return true;
-//            }
-//            else
-//            {
-//               return false;
-//            }
-//        };
-//
-//    public boolean checkLoose(int currentLife)
-//    {
-//        if (currentLife == 0)
-//        {
-//            return true;
-//        }
-//        else
-//        {
-//            return false;
-//        }
-//    };
-
-//        public int randomEquation()
-//        {
-//            int goodQuestion = 0;
-//            while(goodQuestion > 20 || goodQuestion < 0) {
-//                Random r = new Random();
-//                int firstNum = r.nextInt(20 + 1);
-//                int secndNum = r.nextInt(20 + 1);
-//
-//                goodQuestion = firstNum + secndNum;
-//            }
-//            return goodQuestion;
-//        };
-
     }
+    public int randomEquation()
+    {
+        int goodAnswer = 22;
+        while(goodAnswer > 20){
+            Random r = new Random();
+            int firstNum = r.nextInt(20 + 1);
+            int secondNum = r.nextInt(20 + 1);
+            goodAnswer = firstNum + secondNum;
+            questionTextView.setText(firstNum + " + " + secondNum + " = ?");
+        }
+
+        return goodAnswer;
+    }
+
+    public  boolean checkAnswer(int answer, int goodAnswer)
+    {
+        if (goodAnswer == answer) {
+            points = points + 1;
+            return true;
+        }
+            else
+            {
+                life = life - 1;
+                return true;
+            }
+        }
+
+    public boolean checkWin(int points)
+    {
+        if (points == 3)
+        {
+            button0.setVisibility(View.INVISIBLE);
+            button1.setVisibility(View.INVISIBLE);
+            button2.setVisibility(View.INVISIBLE);
+            button3.setVisibility(View.INVISIBLE);
+            button4.setVisibility(View.INVISIBLE);
+            button5.setVisibility(View.INVISIBLE);
+            button6.setVisibility(View.INVISIBLE);
+            button7.setVisibility(View.INVISIBLE);
+            button8.setVisibility(View.INVISIBLE);
+            button9.setVisibility(View.INVISIBLE);
+            clearButton.setVisibility(View.INVISIBLE);
+            lifeTextView.setVisibility(View.INVISIBLE);
+            pointsTextView.setVisibility(View.INVISIBLE);
+            answerTextView.setText("WYGRAŁAŚ!!!!!!!");
+            questionTextView.setVisibility(View.INVISIBLE);
+            checkButton.setText("Rozpocznij nową grę");
+            startFlag = 0;
+            points = 0;
+            life = 3;
+            return  true;
+        }
+        else
+            return false;
+    }
+    public boolean checkLoose(int life)
+    {
+        if (life == 0) {
+            button0.setVisibility(View.INVISIBLE);
+            button1.setVisibility(View.INVISIBLE);
+            button2.setVisibility(View.INVISIBLE);
+            button3.setVisibility(View.INVISIBLE);
+            button4.setVisibility(View.INVISIBLE);
+            button5.setVisibility(View.INVISIBLE);
+            button6.setVisibility(View.INVISIBLE);
+            button7.setVisibility(View.INVISIBLE);
+            button8.setVisibility(View.INVISIBLE);
+            button9.setVisibility(View.INVISIBLE);
+            clearButton.setVisibility(View.INVISIBLE);
+            lifeTextView.setVisibility(View.INVISIBLE);
+            pointsTextView.setVisibility(View.INVISIBLE);
+            answerTextView.setVisibility(View.INVISIBLE);
+            checkButton.setText("Rozpocznij nową grę");
+            startFlag = 0;
+            points = 0;
+            life = 3;
+            answerTextView.setText("PRZEGRAŁAŚ!!!!!!!");
+            return true;
+        }
+            else
+        {   return false;
+
+        }
+    }
+
 
 
     }
