@@ -5,7 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical">
 
-  <Space
+    <Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="20dp"/>
@@ -38,30 +38,43 @@
     <Space
         android:layout_width="match_parent"
         android:layout_height="20dp" />
-<LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:minHeight="20dp"/>
+<RadioGroup
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:layout_weight="1">
+    android:layout_gravity="fill"
+    android:gravity="center"
+    >
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/menu_button_ninquiz"
+            android:layout_weight="1"
+            android:id="@+id/quizLaunchButton"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/menu_button_ninquiz"
+            android:layout_weight="1"
+            android:id="@+id/quizLaunchButton"/>
+</RadioGroup>
 
-    <Space
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:minHeight="20dp"/>
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:minHeight="20dp"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="@string/menu_button_ninquiz"
-        android:layout_weight="1"
-        android:id="@+id/quizLaunchButton"/>
-
-    <Space
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:minHeight="20dp"/>
-
-</LinearLayout>
+    </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
