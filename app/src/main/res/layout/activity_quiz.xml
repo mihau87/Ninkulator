@@ -94,6 +94,7 @@
             android:layout_height="match_parent"
             android:hint="Odpowiedź"
             android:layout_weight="90"
+            android:maxLength="10"
             android:gravity="center"
             android:textSize="30sp"
             android:id="@+id/answerTextView"
@@ -237,16 +238,16 @@
             android:minHeight="20dp"/>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="0"
-            android:layout_weight="1"
+            android:layout_weight="33"
             android:id="@+id/button0"/>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="5"
+            android:layout_weight="67"
             android:id="@+id/checkButton"/>
         <Space
             android:layout_width="20dp"

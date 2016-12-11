@@ -190,22 +190,19 @@ public class Ninkulator extends AppCompatActivity {
                                         {
 
               String [] numbers = resultTextView.getText().toString().split(sign);
-
-
               int firstNum = Integer.parseInt(numbers[0]);
               int secondNum = Integer.parseInt(numbers[1]);
               if (TextUtils.isEmpty((resultTextView).getText().toString()))
                   return;
               else
               {
-              if (sign.equals("+"))
-              {
-                            int result = firstNum + secondNum;
+              if (sign.equals("+")) {
+                  int result = firstNum + secondNum;
                   resultTextView.setText(String.valueOf(result));
               }
               else
                         {
-                            int result = firstNum + secondNum;
+                            int result = firstNum - secondNum;
                             resultTextView.setText(String.valueOf(result));
                         }
                   countButton.setEnabled(false);
@@ -230,7 +227,7 @@ public class Ninkulator extends AppCompatActivity {
                                             {
 
         resultTextView.setText("");
-                                                countButton.setEnabled(true);
+                                                countButton.setEnabled(false);
                                                 plusButton.setEnabled(true);
                                                 minusButton.setEnabled(true);
                                                 button0.setEnabled(true);
