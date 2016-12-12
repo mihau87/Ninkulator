@@ -11,8 +11,8 @@ import android.view.View.OnClickListener;
 public class MainActivity extends AppCompatActivity {
 
 
-    Button ninkulatorButton;
-    Button quizButton;
+    Button ninkulatorLaunchButton;
+    Button quizLaunchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -20,10 +20,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ninkulatorButton = (Button) findViewById(R.id.ninkulatorButton);
-        quizButton = (Button) findViewById(R.id.quizButton);
+        ninkulatorLaunchButton = (Button) findViewById(R.id.ninkulatorLaunchButton);
+        quizLaunchButton = (Button) findViewById(R.id.quizLaunchButton);
 
-        ninkulatorButton.setOnClickListener(new OnClickListener()
+        ninkulatorLaunchButton.setOnClickListener(new OnClickListener()
         {
             @Override
             public void onClick(View view){
@@ -32,11 +32,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }});
 
-        quizButton.setOnClickListener (new OnClickListener()
+        quizLaunchButton.setOnClickListener (new OnClickListener()
         {
             @Override
             public void onClick(View view){
-            Intent intent = new Intent(MainActivity.this, Quiz.class);
+            Intent intent = new Intent(MainActivity.this, QuizMenu.class);
             startActivity(intent);
         }});
     }
