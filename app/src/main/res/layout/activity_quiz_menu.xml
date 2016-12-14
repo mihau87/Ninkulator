@@ -20,17 +20,22 @@
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:minHeight="20dp"/>
-
-        <EditText
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/text_input_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Wpisz swoje imię"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:id="@+id/playerNameEditText"
-            android:inputType="textEmailAddress"
-            android:imeOptions="flagNoExtractUi"
-            android:maxLength="20"/>
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Wpisz swoje imię"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:id="@+id/playerNameEditText"
+                android:inputType="textEmailAddress"
+                android:maxLength="20"/>
+        </android.support.design.widget.TextInputLayout>
 
         <Space
             android:layout_width="20dp"
@@ -56,12 +61,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="średni"
-                android:id="@+id/mediumeasyLevelRadio"/>
+                android:id="@+id/mediumLevelRadio"/>
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="trudny"
-                android:id="@+id/hardeasyLevelRadio"/>
+                android:id="@+id/hardLevelRadio"/>
         </RadioGroup>
         <LinearLayout
             android:layout_width="match_parent"
@@ -73,12 +78,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Dodawanie"
-            android:id="@+id/plusRquationCheckbox"/>
+            android:id="@+id/plusEquationCheckbox"/>
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Odejmowanie"
-            android:id="@+id/minusRquationCheckbox"/>
+            android:id="@+id/minusEquationCheckbox"/>
             </LinearLayout>
 
     </LinearLayout>

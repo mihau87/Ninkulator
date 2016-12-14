@@ -1,5 +1,9 @@
 package pl.mihau.ninqiuz;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -31,6 +35,10 @@ public class Quiz extends AppCompatActivity {
     int points;
     boolean newGameFlag = true;
     int goodAnswer;
+    String playerName;
+    Integer difficultyLevel;
+    Integer equationType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +60,27 @@ public class Quiz extends AppCompatActivity {
         answerTextView = (TextView) findViewById(R.id.answerTextView);
         lifeTextView = (TextView) findViewById(R.id.lifeTextView);
         pointsTextView = (TextView) findViewById(R.id.pointsTextView);
+
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        playerName = extras.getString("playerName");
+        difficultyLevel = extras.getInt("difficultyLevel");
+        equationType = extras.getInt("equationType");
+
+        new AlertDialog.Builder(this)
+                .setTitle(playerName + ", witaj w NinQuiz!")
+                .setMessage("Wybrałeś  średni poziom trudności!\nZaczynajmy!")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .show();
 
         newGame(true);
         checkButton.setText("Rozpocznij \nNinquiz");

@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Ninqiuz</string>
-    <string name="menu_button_ninquiz">Ninquiz</string>
-    <string name="menu_button_nikulator">Ninkulator</string>
+    <string name="menu_button_ninquiz">Rozpocznij NinQuiz</string>
+    <string name="launch_button_ninquiz">Ninquiz</string>
+    <string name="launch_button_nikulator">Ninkulator</string>
     <string name="radiobutton_plus">Dodawanie</string>
     <string name="radiobutton_minus">Odejmowanie</string>
 </resources>
