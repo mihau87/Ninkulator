@@ -24,7 +24,7 @@ public class QuizMenu extends AppCompatActivity {
     CheckBox plusEquationCheckbox;
     CheckBox minusEquationCheckbox;
     int radioButtonFlag = 2;
-    int checkBoxFlag = 3;
+    int equationFlag = 3;
 
 
     @Override
@@ -57,6 +57,65 @@ public class QuizMenu extends AppCompatActivity {
             }
         });
 
+        easyLevelRadio.setOnClickListener (new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view){
+
+                    radioButtonFlag = 1;
+
+
+            }});
+        mediumLevelRadio.setOnClickListener (new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view){
+
+                radioButtonFlag = 2;
+
+
+            }});
+        hardLevelRadio.setOnClickListener (new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view){
+
+                radioButtonFlag = 3;
+
+
+            }});
+
+        plusEquationCheckbox.setOnClickListener (new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view){
+
+                if (plusEquationCheckbox.isChecked()) {
+
+                    equationFlag = equationFlag + 1;
+                }
+                else
+                {
+                    equationFlag = equationFlag - 1;
+                }
+
+            }});
+
+        minusEquationCheckbox.setOnClickListener (new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view){
+
+                if (plusEquationCheckbox.isChecked()) {
+
+                    equationFlag = equationFlag + 2;
+                }
+                else
+                {
+                    equationFlag = equationFlag - 2;
+                }
+
+            }});
 
         quizButton.setOnClickListener (new View.OnClickListener()
         {
@@ -80,7 +139,7 @@ public class QuizMenu extends AppCompatActivity {
                     Bundle extras = new Bundle();
                     extras.putString("playerName", playerNameEditText.getText().toString());
                     extras.putInt("difficultyLevel", radioButtonFlag);
-                    extras.putInt("equationType", checkBoxFlag);
+                    extras.putInt("equationType", equationFlag);
                     intent.putExtras(extras);
                     startActivity(intent);
                 }

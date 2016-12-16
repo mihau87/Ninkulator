@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import java.util.Random;
 
+import static pl.mihau.ninqiuz.R.layout.activity_quiz;
+
 public class Quiz extends AppCompatActivity {
 
     Button button0;
@@ -33,16 +35,25 @@ public class Quiz extends AppCompatActivity {
     TextView pointsTextView;
     int life;
     int points;
+    int limit;
     boolean newGameFlag = true;
+    boolean activePopupFlag = false;
     int goodAnswer;
+    int pointsToWin;
     String playerName;
     Integer difficultyLevel;
     Integer equationType;
+    String message;
+    String title;
+    Integer state;
+    long startTime;
+    long difference;
+    double time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quiz);
+        setContentView(activity_quiz);
 
         button0 = (Button) findViewById(R.id.button0);
         button1 = (Button) findViewById(R.id.button1);
@@ -60,41 +71,21 @@ public class Quiz extends AppCompatActivity {
         answerTextView = (TextView) findViewById(R.id.answerTextView);
         lifeTextView = (TextView) findViewById(R.id.lifeTextView);
         pointsTextView = (TextView) findViewById(R.id.pointsTextView);
+        message = new String();
+        title = new String();
+        state = 1;
 
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        playerName = extras.getString("playerName");
-        difficultyLevel = extras.getInt("difficultyLevel");
-        equationType = extras.getInt("equationType");
+        getPreviousIntentData();
 
-        new AlertDialog.Builder(this)
-                .setTitle(playerName + ", witaj w NinQuiz!")
-                .setMessage("Wybrałeś  średni poziom trudności!\nZaczynajmy!")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // continue with delete
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                })
-                .show();
-
-        newGame(true);
-        checkButton.setText("Rozpocznij \nNinquiz");
-
-
+        generatePopup(state);
 
         checkButton.setOnClickListener (new View.OnClickListener()
                                         {
                                             @Override
                                             public void onClick(View view) {
 
+        checkButton.setText("Sprawdź");
                                                 if (newGame(newGameFlag)) {
-                                                    goodAnswer = randomEquation();
-                                                    checkButton.setText("Sprawdź");
                                                     button0.setVisibility(View.VISIBLE);
                                                     button1.setVisibility(View.VISIBLE);
                                                     button2.setVisibility(View.VISIBLE);
@@ -105,24 +96,30 @@ public class Quiz extends AppCompatActivity {
                                                     button7.setVisibility(View.VISIBLE);
                                                     button8.setVisibility(View.VISIBLE);
                                                     button9.setVisibility(View.VISIBLE);
+                                                    checkButton.setVisibility(View.VISIBLE);
                                                     questionTextView.setVisibility(View.VISIBLE);
                                                     clearButton.setVisibility(View.VISIBLE);
                                                     lifeTextView.setVisibility(View.VISIBLE);
                                                     pointsTextView.setVisibility(View.VISIBLE);
                                                     pointsTextView.setText("Punkty: 0");
                                                     answerTextView.setVisibility(View.VISIBLE);
-                                                    lifeTextView.setText("Życie: 3");
+                                                    lifeTextView.setText("Życie: " + life);
+                                                    goodAnswer = randomEquation();
                                                     newGameFlag = false;
+
+                                                    //uruchamianie licznika czasu
+                                                    startTime = System.currentTimeMillis();
                                                 }
                                                 else {
                                                     if (TextUtils.isEmpty(answerTextView.getText().toString())) {
                                                         return;
                                                     } else {
                                                         checkAnswer(Integer.parseInt(answerTextView.getText().toString()), goodAnswer);
+                                                    }
 
-                                                    }                                                        if (checkWin(points) || checkLoose(life))
+                                                    if (checkWin(points) || checkLoose(life))
                                                     {
-                                                        newGame(true);
+                                                     //   newGame(true);
                                                     }
                                                     else
                                                     {
@@ -248,9 +245,25 @@ public class Quiz extends AppCompatActivity {
     }
     public int randomEquation()
     {
-        int goodAnswer = 22;
         answerTextView.setText("");
-        while(goodAnswer > 20){
+        switch (state)
+        {
+            case 1:
+                limit = 20;
+                goodAnswer = 22;
+                break;
+            case 2:
+                limit = 30;
+                goodAnswer = 33;
+                break;
+            case 3:
+                limit = 50;
+                goodAnswer = 55;
+                break;
+
+        }
+
+        while(goodAnswer > limit){
             Random r = new Random();
             int firstNum = r.nextInt(20 + 1);
             int secondNum = r.nextInt(20 + 1);
@@ -289,11 +302,24 @@ public class Quiz extends AppCompatActivity {
 
     public boolean checkWin(int points)
     {
-        if (points == 3)
+        switch (state) {
+            case 1:
+                pointsToWin = 10;
+                break;
+            case 2:
+                pointsToWin = 20;
+                break;
+            case 3:
+                pointsToWin = 20;
+                break;
+        }
+
+        if (points == pointsToWin)
         {
-//            newGame(true);
-            questionTextView.setVisibility(View.VISIBLE);
-            questionTextView.setText("WYGRAŁAŚ!!!!!!!");
+            //zatrzymanie czasu
+            difference = System.currentTimeMillis() - startTime;
+            time = difference/1000;
+            generatePopup(4);
             return  true;
         }
         else
@@ -304,10 +330,14 @@ public class Quiz extends AppCompatActivity {
 
     public boolean checkLoose(int life)
     {
+
+
         if (life == 0) {
-//            newGame(true);
-            questionTextView.setVisibility(View.VISIBLE);
-            questionTextView.setText("PRZEGRAŁAŚ :(");
+            //zatrzymanie czasu
+            difference = System.currentTimeMillis() - startTime;
+            time = difference/1000;
+
+            generatePopup(5);
             return true;
         }
             else
@@ -316,27 +346,112 @@ public class Quiz extends AppCompatActivity {
         }
     }
 
+    public void getPreviousIntentData(){
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        playerName = extras.getString("playerName");
+        state = extras.getInt("difficultyLevel");
+        equationType = extras.getInt("equationType");
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Quiz.this, QuizMenu.class);
+            startActivity(intent);
+    }
+
+    public void generatePopup(int state) {
+        clearScreen();
+        activePopupFlag = true;
+
+        switch (state) {
+            // Nowa gra łatwy poziom
+            case 1:
+                message = "Wybrałeś poziom łatwy\nMusisz zdobyć 10 punktów";
+                title = ", witaj w NinQuiz";
+                break;
+            // Nowa gra średni poziom
+            case 2:
+                message = "Wybrałeś poziom średni\nMusisz zdobyć 20 punktów";
+                title = ", witaj w NinQuiz";
+                break;
+            // Nowa gra trudny poziom
+            case 3:
+                message = "Wybrałeś poziom trudny\nMusisz zdobyć 30 punktów";
+                title = ", witaj w NinQuiz";
+                break;
+            // wygrana
+            case 4:
+                message = "Gratuluję wygrałeś!\nZajęło Ci to: " + time + "s\nGrasz ponownie?";
+                title = "! :)";
+                break;
+            // przegrana
+            case 5:
+                message = "Niestety przegrałeś\nZajęło Ci to: " + time + "s\nGrasz ponownie?";
+                title = " :(";
+                break;
+        }
+
+        AlertDialog.Builder popupMessage = new AlertDialog.Builder(this);
+        popupMessage.setTitle(playerName + title);
+        popupMessage.setMessage(message);
+        popupMessage.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                checkButton.callOnClick();
+                activePopupFlag = false;
+            }
+        });
+        popupMessage.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                activePopupFlag = false;
+                finish();
+            }
+        });
+//        popupMessage.setCancelable(false);
+        final AlertDialog dialog = popupMessage.create();
+        dialog.show();
+
+        dialog.setCanceledOnTouchOutside(false);
+
+        newGame(true);
+    }
+
+
+
+    public void clearScreen(){
+        button0.setVisibility(View.INVISIBLE);
+        button1.setVisibility(View.INVISIBLE);
+        button2.setVisibility(View.INVISIBLE);
+        button3.setVisibility(View.INVISIBLE);
+        button4.setVisibility(View.INVISIBLE);
+        button5.setVisibility(View.INVISIBLE);
+        button6.setVisibility(View.INVISIBLE);
+        button7.setVisibility(View.INVISIBLE);
+        button8.setVisibility(View.INVISIBLE);
+        button9.setVisibility(View.INVISIBLE);
+        clearButton.setVisibility(View.INVISIBLE);
+        lifeTextView.setVisibility(View.INVISIBLE);
+        pointsTextView.setVisibility(View.INVISIBLE);
+        answerTextView.setVisibility(View.INVISIBLE);
+        questionTextView.setVisibility(View.INVISIBLE);
+        checkButton.setVisibility(View.INVISIBLE);
+    }
+
     public boolean newGame(boolean flag)
     {
         if (flag) {
             points = 0;
-            life = 3;
-            button0.setVisibility(View.INVISIBLE);
-            button1.setVisibility(View.INVISIBLE);
-            button2.setVisibility(View.INVISIBLE);
-            button3.setVisibility(View.INVISIBLE);
-            button4.setVisibility(View.INVISIBLE);
-            button5.setVisibility(View.INVISIBLE);
-            button6.setVisibility(View.INVISIBLE);
-            button7.setVisibility(View.INVISIBLE);
-            button8.setVisibility(View.INVISIBLE);
-            button9.setVisibility(View.INVISIBLE);
-            clearButton.setVisibility(View.INVISIBLE);
-            lifeTextView.setVisibility(View.INVISIBLE);
-            pointsTextView.setVisibility(View.INVISIBLE);
-            answerTextView.setVisibility(View.INVISIBLE);
-            answerTextView.setText("");
-            checkButton.setText("Rozpocznij nową grę");
+            switch (state) {
+                case 1:
+                    life = 3;
+                    break;
+                case 2:
+                    life = 2;
+                    break;
+                case 3:
+                    life = 1;
+                    break;
+            }
             newGameFlag = true;
             return true;
         }
