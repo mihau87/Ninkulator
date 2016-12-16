@@ -37,7 +37,6 @@ public class Quiz extends AppCompatActivity {
     int points;
     int limit;
     boolean newGameFlag = true;
-    boolean activePopupFlag = false;
     int goodAnswer;
     int pointsToWin;
     String playerName;
@@ -267,8 +266,6 @@ public class Quiz extends AppCompatActivity {
             Random r = new Random();
             int firstNum = r.nextInt(20 + 1);
             int secondNum = r.nextInt(20 + 1);
-//        int firstNum = points +11;
-//        int secondNum = 2;
             goodAnswer = firstNum + secondNum;
             questionTextView.setText(firstNum + " + " + secondNum + " = ?");
         }
@@ -336,7 +333,6 @@ public class Quiz extends AppCompatActivity {
             //zatrzymanie czasu
             difference = System.currentTimeMillis() - startTime;
             time = difference/1000;
-
             generatePopup(5);
             return true;
         }
@@ -354,15 +350,10 @@ public class Quiz extends AppCompatActivity {
         equationType = extras.getInt("equationType");
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(Quiz.this, QuizMenu.class);
-            startActivity(intent);
-    }
-
+    AlertDialog dialog;
+    boolean noFinish = false;
     public void generatePopup(int state) {
         clearScreen();
-        activePopupFlag = true;
 
         switch (state) {
             // Nowa gra łatwy poziom
@@ -391,31 +382,36 @@ public class Quiz extends AppCompatActivity {
                 title = " :(";
                 break;
         }
-
+        noFinish = false;
         AlertDialog.Builder popupMessage = new AlertDialog.Builder(this);
         popupMessage.setTitle(playerName + title);
         popupMessage.setMessage(message);
+        popupMessage.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                if (!noFinish)
+                finish();
+            }
+        });
         popupMessage.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 checkButton.callOnClick();
-                activePopupFlag = false;
+                noFinish = true;
             }
         });
         popupMessage.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                activePopupFlag = false;
-                finish();
+//                finish();
             }
         });
 //        popupMessage.setCancelable(false);
-        final AlertDialog dialog = popupMessage.create();
+        dialog = popupMessage.create();
         dialog.show();
 
         dialog.setCanceledOnTouchOutside(false);
 
         newGame(true);
     }
-
 
 
     public void clearScreen(){
