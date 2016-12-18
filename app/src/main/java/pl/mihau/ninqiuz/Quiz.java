@@ -262,14 +262,62 @@ public class Quiz extends AppCompatActivity {
 
         }
 
-        while(goodAnswer > limit){
-            Random r = new Random();
-            int firstNum = r.nextInt(20 + 1);
-            int secondNum = r.nextInt(20 + 1);
-            goodAnswer = firstNum + secondNum;
-            questionTextView.setText(firstNum + " + " + secondNum + " = ?");
+        if (equationType == 1)
+        {
+                    while (goodAnswer > limit)
+                    {
+                    Random r = new Random();
+                    int firstNum = r.nextInt(limit + 1);
+                    int secondNum = r.nextInt(limit + 1);
+                    goodAnswer = firstNum + secondNum;
+                    questionTextView.setText(firstNum + " + " + secondNum + " = ?");
+                    }
+            return goodAnswer;
         }
-        return goodAnswer;
+
+        if (equationType == 2)
+        {
+                    while (goodAnswer > limit || goodAnswer<0) {
+                        Random r = new Random();
+                        int firstNum = r.nextInt(limit + limit + 1);
+                        int secondNum = r.nextInt(limit + limit + 1);
+                        goodAnswer = firstNum - secondNum;
+                        questionTextView.setText(firstNum + " - " + secondNum + " = ?");
+                    }
+                        return goodAnswer;
+        }
+        else
+        {
+            Random r = new Random();
+            int random = r.nextInt(1+1);
+            if (random == 1)
+            {
+                while (goodAnswer > limit)
+                {
+                    r = new Random();
+                    int firstNum = r.nextInt(limit + 1);
+                    int secondNum = r.nextInt(limit + 1);
+                    goodAnswer = firstNum + secondNum;
+                    questionTextView.setText(firstNum + " + " + secondNum + " = ?");
+                }
+            }
+            else
+            {
+                while (goodAnswer > limit || goodAnswer<0) {
+                    r = new Random();
+                    int firstNum = r.nextInt(limit + limit + 1);
+                    int secondNum = r.nextInt(limit + limit + 1);
+                    goodAnswer = firstNum - secondNum;
+                    questionTextView.setText(firstNum + " - " + secondNum + " = ?");
+                }
+            }
+
+
+
+            return goodAnswer;
+        }
+
+
     }
 
     public  void checkAnswer(int answer, int goodAnswer)
@@ -385,7 +433,7 @@ public class Quiz extends AppCompatActivity {
         noFinish = false;
         AlertDialog.Builder popupMessage = new AlertDialog.Builder(this);
         popupMessage.setTitle(playerName + title);
-        popupMessage.setMessage(message);
+        popupMessage.setMessage(message.replace(".0", ""));
         popupMessage.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
