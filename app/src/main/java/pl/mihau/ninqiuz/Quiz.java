@@ -29,10 +29,13 @@ public class Quiz extends AppCompatActivity {
     Button button9;
     Button checkButton;
     Button clearButton;
+    TextView firstNumTextView;
+    TextView secondNumTextView;
     TextView answerTextView;
-    TextView questionTextView;
+    TextView equationSignTextView;
     TextView lifeTextView;
     TextView pointsTextView;
+//    TextView blankTextView;
     int life;
     int points;
     int limit;
@@ -40,7 +43,7 @@ public class Quiz extends AppCompatActivity {
     int goodAnswer;
     int pointsToWin;
     String playerName;
-    Integer difficultyLevel;
+//    Integer difficultyLevel;
     Integer equationType;
     String message;
     String title;
@@ -64,12 +67,15 @@ public class Quiz extends AppCompatActivity {
         button7 = (Button) findViewById(R.id.button7);
         button8 = (Button) findViewById(R.id.button8);
         button9 = (Button) findViewById(R.id.button9);
+        secondNumTextView = (TextView) findViewById(R.id.secondNumTextView);
+        firstNumTextView = (TextView) findViewById(R.id.firstNumTextView);
         checkButton = (Button) findViewById(R.id.checkButton);
         clearButton = (Button) findViewById(R.id.clearButton);
-        questionTextView = (TextView) findViewById(R.id.questionTextView);
+//        questionTextView = (TextView) findViewById(R.id.questionTextView);
         answerTextView = (TextView) findViewById(R.id.answerTextView);
         lifeTextView = (TextView) findViewById(R.id.lifeTextView);
         pointsTextView = (TextView) findViewById(R.id.pointsTextView);
+        equationSignTextView = (TextView) findViewById(R.id.equationSignTextView);
         message = new String();
         title = new String();
         state = 1;
@@ -96,7 +102,7 @@ public class Quiz extends AppCompatActivity {
                                                     button8.setVisibility(View.VISIBLE);
                                                     button9.setVisibility(View.VISIBLE);
                                                     checkButton.setVisibility(View.VISIBLE);
-                                                    questionTextView.setVisibility(View.VISIBLE);
+//                                                    questionTextView.setVisibility(View.VISIBLE);
                                                     clearButton.setVisibility(View.VISIBLE);
                                                     lifeTextView.setVisibility(View.VISIBLE);
                                                     pointsTextView.setVisibility(View.VISIBLE);
@@ -264,25 +270,33 @@ public class Quiz extends AppCompatActivity {
 
         if (equationType == 1)
         {
+            equationSignTextView.setText("+");
                     while (goodAnswer > limit)
                     {
                     Random r = new Random();
                     int firstNum = r.nextInt(limit + 1);
                     int secondNum = r.nextInt(limit + 1);
                     goodAnswer = firstNum + secondNum;
-                    questionTextView.setText(firstNum + " + " + secondNum + " = ?");
+                    firstNumTextView.setText(Integer.toString(firstNum));
+                    secondNumTextView.setText(Integer.toString(secondNum));
+//                    questionTextView.setText(firstNum + " + " + secondNum + " = ?");
                     }
             return goodAnswer;
         }
 
         if (equationType == 2)
         {
+            equationSignTextView.setText("-");
                     while (goodAnswer > limit || goodAnswer<0) {
                         Random r = new Random();
-                        int firstNum = r.nextInt(limit + limit + 1);
-                        int secondNum = r.nextInt(limit + limit + 1);
+                        int firstNum = r.nextInt(limit + 1);
+//                        int firstNum = r.nextInt(limit + limit + 1);
+                        int secondNum = r.nextInt(limit + 1);
+//                        int secondNum = r.nextInt(limit + limit + 1);
                         goodAnswer = firstNum - secondNum;
-                        questionTextView.setText(firstNum + " - " + secondNum + " = ?");
+                        firstNumTextView.setText(Integer.toString(firstNum));
+                        secondNumTextView.setText(Integer.toString(secondNum));
+//                        questionTextView.setText(firstNum + " - " + secondNum + " = ?");
                     }
                         return goodAnswer;
         }
@@ -294,21 +308,27 @@ public class Quiz extends AppCompatActivity {
             {
                 while (goodAnswer > limit)
                 {
+                    equationSignTextView.setText("+");
                     r = new Random();
                     int firstNum = r.nextInt(limit + 1);
                     int secondNum = r.nextInt(limit + 1);
                     goodAnswer = firstNum + secondNum;
-                    questionTextView.setText(firstNum + " + " + secondNum + " = ?");
+                    firstNumTextView.setText(Integer.toString(firstNum));
+                    secondNumTextView.setText(Integer.toString(secondNum));
+//                    questionTextView.setText(firstNum + " + " + secondNum + " = ?");
                 }
             }
             else
             {
+                equationSignTextView.setText("-");
                 while (goodAnswer > limit || goodAnswer<0) {
                     r = new Random();
                     int firstNum = r.nextInt(limit + limit + 1);
                     int secondNum = r.nextInt(limit + limit + 1);
                     goodAnswer = firstNum - secondNum;
-                    questionTextView.setText(firstNum + " - " + secondNum + " = ?");
+                    firstNumTextView.setText(Integer.toString(firstNum));
+                    secondNumTextView.setText(Integer.toString(secondNum));
+//                    questionTextView.setText(firstNum + " - " + secondNum + " = ?");
                 }
             }
 
@@ -477,7 +497,7 @@ public class Quiz extends AppCompatActivity {
         lifeTextView.setVisibility(View.INVISIBLE);
         pointsTextView.setVisibility(View.INVISIBLE);
         answerTextView.setVisibility(View.INVISIBLE);
-        questionTextView.setVisibility(View.INVISIBLE);
+//        questionTextView.setVisibility(View.INVISIBLE);
         checkButton.setVisibility(View.INVISIBLE);
     }
 

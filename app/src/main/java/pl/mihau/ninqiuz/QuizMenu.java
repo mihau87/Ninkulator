@@ -1,8 +1,10 @@
 package pl.mihau.ninqiuz;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,7 +18,7 @@ import android.widget.CheckBox;
 
 public class QuizMenu extends AppCompatActivity {
 
-    Button quizButton;
+    Button startQuizButton;
     RadioButton easyLevelRadio;
     RadioButton mediumLevelRadio;
     RadioButton hardLevelRadio;
@@ -24,15 +26,15 @@ public class QuizMenu extends AppCompatActivity {
     CheckBox plusEquationCheckbox;
     CheckBox minusEquationCheckbox;
     int radioButtonFlag = 2;
-    int equationFlag = 3;
-
+    int equationFlag = 1;
+    boolean errorFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_menu);
 
-        quizButton = (Button) findViewById(R.id.quizButton);
+        startQuizButton = (Button) findViewById(R.id.quizButton);
         easyLevelRadio = (RadioButton) findViewById(R.id.easyLevelRadio);
 
         mediumLevelRadio = (RadioButton) findViewById(R.id.mediumLevelRadio);
@@ -45,7 +47,7 @@ public class QuizMenu extends AppCompatActivity {
         plusEquationCheckbox = (CheckBox) findViewById(R.id.plusEquationCheckbox);
         plusEquationCheckbox.setChecked(true);
         minusEquationCheckbox = (CheckBox) findViewById(R.id.minusEquationCheckbox);
-        minusEquationCheckbox.setChecked(true);
+        minusEquationCheckbox.setChecked(false);
 
 
         playerNameEditText.setOnTouchListener(new View.OnTouchListener() {
@@ -117,10 +119,12 @@ public class QuizMenu extends AppCompatActivity {
 
             }});
 
-        quizButton.setOnClickListener (new View.OnClickListener()
+
+        startQuizButton.setOnClickListener (new View.OnClickListener()
         {
             @Override
             public void onClick(View view){
+
                 if (TextUtils.isEmpty(playerNameEditText.getText().toString())) {
 
                     playerNameEditText.setFocusable(true);
@@ -133,16 +137,85 @@ public class QuizMenu extends AppCompatActivity {
                     TextInputLayout til = (TextInputLayout) findViewById(R.id.text_input_layout);
                     til.setErrorEnabled(true);
                     til.setError("Wpisz swoje imię");
+                    errorFlag = true;
+                }
+                if (!plusEquationCheckbox.isChecked() && !minusEquationCheckbox.isChecked())
+                {
+                    generatePopup(1);
+                    errorFlag = true;
+                }
+                if (equationFlag > 3 || equationFlag <0)
+                {
+                    generatePopup(0);
+                    errorFlag = true;
                 }
                 else {
-                    Intent intent = new Intent(QuizMenu.this, Quiz.class);
-                    Bundle extras = new Bundle();
-                    extras.putString("playerName", playerNameEditText.getText().toString());
-                    extras.putInt("difficultyLevel", radioButtonFlag);
-                    extras.putInt("equationType", equationFlag);
-                    intent.putExtras(extras);
-                    startActivity(intent);
+                    if (errorFlag == false){
+                        errorFlag = true;
+                        Intent intent = new Intent(QuizMenu.this, Quiz.class);
+                        Bundle extras = new Bundle();
+                        extras.putString("playerName", playerNameEditText.getText().toString());
+                        extras.putInt("difficultyLevel", radioButtonFlag);
+                        extras.putInt("equationType", equationFlag);
+                        intent.putExtras(extras);
+                        startActivity(intent);
+
+                    }
+                    else{
+                        errorFlag = false;
+                    return;
+                    }
                 }
+                errorFlag = false;
             }});
            }
+
+    AlertDialog dialog;
+    String title;
+    String message;
+    public void generatePopup(int x) {
+
+
+        switch (x){
+        case 1:
+        {
+            title = "Bład";
+            message = "Nie wybrałeś działania";
+            break;
+        }
+        case 0:
+        {
+            title = "Uwaga";
+            message = "Wystąpił błąd. Spróbuj ponownie";
+            equationFlag = 3;
+            plusEquationCheckbox.setChecked(true);
+            minusEquationCheckbox.setChecked(true);
+
+            break;
+        }}
+
+        AlertDialog.Builder popupMessage = new AlertDialog.Builder(this);
+        popupMessage.setTitle(title);
+        popupMessage.setMessage(message);
+        popupMessage.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+
+            }
+        });
+        popupMessage.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                closeContextMenu();
+            }
+        });
+//        popupMessage.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int which) {
+////                finish();
+//            }
+//        });
+        dialog = popupMessage.create();
+        dialog.show();
+
+//        dialog.setCanceledOnTouchOutside(false);
+    }
 }
