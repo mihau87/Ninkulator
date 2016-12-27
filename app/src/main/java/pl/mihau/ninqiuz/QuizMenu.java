@@ -1,4 +1,4 @@
-package pl.mihau.ninqiuz;
+    package pl.mihau.ninqiuz;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,6 +7,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -48,7 +49,6 @@ public class QuizMenu extends AppCompatActivity {
         plusEquationCheckbox.setChecked(true);
         minusEquationCheckbox = (CheckBox) findViewById(R.id.minusEquationCheckbox);
         minusEquationCheckbox.setChecked(false);
-
 
         playerNameEditText.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -92,13 +92,20 @@ public class QuizMenu extends AppCompatActivity {
             @Override
             public void onClick(View view){
 
-                if (plusEquationCheckbox.isChecked()) {
+                if (plusEquationCheckbox.isChecked() && minusEquationCheckbox.isChecked()) {
 
-                    equationFlag = equationFlag + 1;
+                    equationFlag = 3;
                 }
                 else
                 {
-                    equationFlag = equationFlag - 1;
+                    if (plusEquationCheckbox.isChecked() && !minusEquationCheckbox.isChecked())
+                    {
+                        equationFlag = 1;
+                    }
+                    if (!plusEquationCheckbox.isChecked() && !minusEquationCheckbox.isChecked())
+                    {
+                        equationFlag = 0;
+                    }
                 }
 
             }});
@@ -108,13 +115,20 @@ public class QuizMenu extends AppCompatActivity {
             @Override
             public void onClick(View view){
 
-                if (plusEquationCheckbox.isChecked()) {
+                if (plusEquationCheckbox.isChecked() && minusEquationCheckbox.isChecked()) {
 
-                    equationFlag = equationFlag + 2;
+                    equationFlag = 3;
                 }
                 else
                 {
-                    equationFlag = equationFlag - 2;
+                    if (!plusEquationCheckbox.isChecked() && minusEquationCheckbox.isChecked())
+                    {
+                        equationFlag = 1;
+                    }
+                    if (!plusEquationCheckbox.isChecked() && !minusEquationCheckbox.isChecked())
+                    {
+                        equationFlag = 0;
+                    }
                 }
 
             }});
@@ -130,6 +144,7 @@ public class QuizMenu extends AppCompatActivity {
                     playerNameEditText.setFocusable(true);
                     playerNameEditText.setFocusableInTouchMode(true);
                     playerNameEditText.requestFocus();
+//                    playerNameEditText.getText().toString().replace(" ");
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
