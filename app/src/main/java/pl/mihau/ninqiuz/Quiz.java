@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -90,6 +91,7 @@ public class Quiz extends AppCompatActivity {
                                             public void onClick(View view) {
 
         checkButton.setText("Sprawdź");
+
                                                 if (newGame(newGameFlag)) {
                                                     button0.setVisibility(View.VISIBLE);
                                                     button1.setVisibility(View.VISIBLE);
@@ -108,6 +110,8 @@ public class Quiz extends AppCompatActivity {
                                                     pointsTextView.setVisibility(View.VISIBLE);
                                                     pointsTextView.setText("Punkty: 0");
                                                     answerTextView.setVisibility(View.VISIBLE);
+                                                    firstNumTextView.setVisibility(View.VISIBLE);
+                                                    secondNumTextView.setVisibility(View.VISIBLE);
                                                     lifeTextView.setText("Życie: " + life);
                                                     goodAnswer = randomEquation();
                                                     newGameFlag = false;
@@ -116,10 +120,21 @@ public class Quiz extends AppCompatActivity {
                                                     startTime = System.currentTimeMillis();
                                                 }
                                                 else {
+                                                    if (answerTextView.getText().toString().length() >5)
+                                                    {
+                                                                new AlertDialog.Builder(Quiz.this)
+                                                                        .setTitle("Ja Cię smolę!")
+                                                                        .setMessage("Popraw odpowiedź, bo jest za długa")
+                                                                        .show();
+                                                    }
+                                                    else
+                                                    {
+
                                                     if (TextUtils.isEmpty(answerTextView.getText().toString())) {
                                                         return;
                                                     } else {
                                                         checkAnswer(Integer.parseInt(answerTextView.getText().toString()), goodAnswer);
+//                                                          checkAnswer(answer, goodAnswer);
                                                     }
 
                                                     if (checkWin(points) || checkLoose(life))
@@ -130,6 +145,8 @@ public class Quiz extends AppCompatActivity {
                                                     {
                                                         goodAnswer = randomEquation();
                                                     }
+
+                                                    }
                                                 }
 
                                             }});
@@ -139,8 +156,15 @@ public class Quiz extends AppCompatActivity {
                                             @Override
                                             public void onClick(View view)
                                             {
-                                                answerTextView.setText("");
-                                                clearButton.setEnabled(true);
+                                                String answer = answerTextView.getText().toString();
+                                                if (answer.length() == 0) {
+                                                    answerTextView.setText(answer);
+                                                }
+                                                else {
+                                                    answerTextView.setText(answer.substring(0, answer.length() - 1));
+
+                                                }
+                                                    clearButton.setEnabled(true);
                                             }
                                         }
         );
@@ -150,8 +174,19 @@ public class Quiz extends AppCompatActivity {
                                         @Override
                                         public void onClick(View view){
 
-                                            answerTextView.append((button0.getText().toString()));
-                                            clearButton.setEnabled(true);
+                                            String answer = answerTextView.getText().toString();
+                                            if (TextUtils.isEmpty(answer))
+                                            {
+                                                answerTextView.append((button0.getText().toString()));
+                                            }
+                                            else {
+                                                if (Integer.parseInt(answer) == 0) {
+                                                    answerTextView.setText("0");
+                                                } else {
+                                                    answerTextView.append((button0.getText().toString()));
+                                                }
+                                                clearButton.setEnabled(true);
+                                            }
 
                                         }
                                     }
@@ -251,31 +286,37 @@ public class Quiz extends AppCompatActivity {
     public int randomEquation()
     {
         answerTextView.setText("");
+
         switch (state)
         {
             case 1:
                 limit = 20;
-                goodAnswer = 22;
+                goodAnswer = limit +3;
                 break;
             case 2:
-                limit = 30;
-                goodAnswer = 33;
+                limit = 40;
+                goodAnswer = limit +3;
                 break;
             case 3:
-                limit = 50;
-                goodAnswer = 55;
+                limit = 70;
+                goodAnswer = limit +3;
                 break;
 
         }
 
+
+        int firstNum = 5;
+        int secondNum = 5;
+
+
         if (equationType == 1)
         {
             equationSignTextView.setText("+");
-                    while (goodAnswer > limit)
+                    while (goodAnswer > limit || (firstNum < 4 || secondNum < 4))
                     {
                     Random r = new Random();
-                    int firstNum = r.nextInt(limit + 1);
-                    int secondNum = r.nextInt(limit + 1);
+                    firstNum = r.nextInt(limit + 1);
+                    secondNum = r.nextInt(limit + 1);
                     goodAnswer = firstNum + secondNum;
                     firstNumTextView.setText(Integer.toString(firstNum));
                     secondNumTextView.setText(Integer.toString(secondNum));
@@ -289,14 +330,11 @@ public class Quiz extends AppCompatActivity {
             equationSignTextView.setText("-");
                     while (goodAnswer > limit || goodAnswer<0) {
                         Random r = new Random();
-                        int firstNum = r.nextInt(limit + 1);
-//                        int firstNum = r.nextInt(limit + limit + 1);
-                        int secondNum = r.nextInt(limit + 1);
-//                        int secondNum = r.nextInt(limit + limit + 1);
+                        firstNum = r.nextInt(limit + 1);
+                        secondNum = r.nextInt(limit + 1);
                         goodAnswer = firstNum - secondNum;
                         firstNumTextView.setText(Integer.toString(firstNum));
                         secondNumTextView.setText(Integer.toString(secondNum));
-//                        questionTextView.setText(firstNum + " - " + secondNum + " = ?");
                     }
                         return goodAnswer;
         }
@@ -306,12 +344,12 @@ public class Quiz extends AppCompatActivity {
             int random = r.nextInt(1+1);
             if (random == 1)
             {
-                while (goodAnswer > limit)
+                while (goodAnswer > limit || (firstNum < 4 || secondNum < 4))
                 {
                     equationSignTextView.setText("+");
                     r = new Random();
-                    int firstNum = r.nextInt(limit + 1);
-                    int secondNum = r.nextInt(limit + 1);
+                    firstNum = r.nextInt(limit + 1);
+                    secondNum = r.nextInt(limit + 1);
                     goodAnswer = firstNum + secondNum;
                     firstNumTextView.setText(Integer.toString(firstNum));
                     secondNumTextView.setText(Integer.toString(secondNum));
@@ -323,8 +361,8 @@ public class Quiz extends AppCompatActivity {
                 equationSignTextView.setText("-");
                 while (goodAnswer > limit || goodAnswer<0) {
                     r = new Random();
-                    int firstNum = r.nextInt(limit + limit + 1);
-                    int secondNum = r.nextInt(limit + limit + 1);
+                    firstNum = r.nextInt(limit + limit + 1);
+                    secondNum = r.nextInt(limit + limit + 1);
                     goodAnswer = firstNum - secondNum;
                     firstNumTextView.setText(Integer.toString(firstNum));
                     secondNumTextView.setText(Integer.toString(secondNum));

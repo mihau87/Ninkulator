@@ -5,4 +5,5 @@
     <string name="launch_button_nikulator">Ninkulator</string>
     <string name="radiobutton_plus">Dodawanie</string>
     <string name="radiobutton_minus">Odejmowanie</string>
+    <string name="eraseButton">\u003c-</string>
 </resources>
