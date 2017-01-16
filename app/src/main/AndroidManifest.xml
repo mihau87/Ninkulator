@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="pl.mihau.ninqiuz">
+    package="com.mihau.game.ninqiuz">
 
     <application
         android:allowBackup="true"

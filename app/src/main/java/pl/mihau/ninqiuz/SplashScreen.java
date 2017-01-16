@@ -1,4 +1,4 @@
-package pl.mihau.ninqiuz;
+package com.mihau.game.ninqiuz;
 
         import android.app.Activity;
         import android.content.Intent;

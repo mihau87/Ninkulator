@@ -1,4 +1,4 @@
-package pl.mihau.ninqiuz;
+package com.mihau.game.ninqiuz;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import java.util.Random;
 
-import static pl.mihau.ninqiuz.R.layout.activity_quiz;
+import static com.mihau.game.ninqiuz.R.layout.activity_quiz;
 
 public class Quiz extends AppCompatActivity {
 
@@ -169,7 +169,7 @@ public class Quiz extends AppCompatActivity {
                                         }
         );
 
-        button0.setOnClickListener (new View.OnClickListener()
+         button0.setOnClickListener (new View.OnClickListener()
                                     {
                                         @Override
                                         public void onClick(View view){
