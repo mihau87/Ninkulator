@@ -26,9 +26,13 @@ public class QuizMenu extends AppCompatActivity {
     EditText playerNameEditText;
     CheckBox plusEquationCheckbox;
     CheckBox minusEquationCheckbox;
+    CheckBox multiplyEquationCheckbox;
     int radioButtonFlag = 2;
-    int equationFlag = 1;
+    int equationFlag = 5;
     boolean errorFlag = false;
+    int plusEquationCheckboxFlag = 1;
+    int minusEquationCheckboxFlag = 3;
+    int multiplyEquationCheckboxFlag = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,9 @@ public class QuizMenu extends AppCompatActivity {
         plusEquationCheckbox = (CheckBox) findViewById(R.id.plusEquationCheckbox);
         plusEquationCheckbox.setChecked(true);
         minusEquationCheckbox = (CheckBox) findViewById(R.id.minusEquationCheckbox);
-        minusEquationCheckbox.setChecked(false);
+        minusEquationCheckbox.setChecked(true);
+        multiplyEquationCheckbox = (CheckBox) findViewById(R.id.multiplyEquationCheckbox);
+        multiplyEquationCheckbox.setChecked(true);
 
         playerNameEditText.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -64,7 +70,7 @@ public class QuizMenu extends AppCompatActivity {
             @Override
             public void onClick(View view){
 
-                    radioButtonFlag = 1;
+                radioButtonFlag = 1;
 
 
             }});
@@ -92,20 +98,12 @@ public class QuizMenu extends AppCompatActivity {
             @Override
             public void onClick(View view){
 
-                if (plusEquationCheckbox.isChecked() && minusEquationCheckbox.isChecked()) {
-
-                    equationFlag = 3;
+                if (plusEquationCheckbox.isChecked()) {
+                    plusEquationCheckboxFlag = 1;
                 }
                 else
                 {
-                    if (plusEquationCheckbox.isChecked() && !minusEquationCheckbox.isChecked())
-                    {
-                        equationFlag = 1;
-                    }
-                    if (!plusEquationCheckbox.isChecked() && !minusEquationCheckbox.isChecked())
-                    {
-                        equationFlag = 0;
-                    }
+                    plusEquationCheckboxFlag = 0;
                 }
 
             }});
@@ -115,20 +113,27 @@ public class QuizMenu extends AppCompatActivity {
             @Override
             public void onClick(View view){
 
-                if (plusEquationCheckbox.isChecked() && minusEquationCheckbox.isChecked()) {
-
-                    equationFlag = 3;
+                if (minusEquationCheckbox.isChecked()) {
+                    minusEquationCheckboxFlag = 3;
                 }
                 else
                 {
-                    if (!plusEquationCheckbox.isChecked() && minusEquationCheckbox.isChecked())
-                    {
-                        equationFlag = 1;
-                    }
-                    if (!plusEquationCheckbox.isChecked() && !minusEquationCheckbox.isChecked())
-                    {
-                        equationFlag = 0;
-                    }
+                    minusEquationCheckboxFlag = 0;
+                }
+
+            }});
+
+        multiplyEquationCheckbox.setOnClickListener (new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view){
+
+                if (multiplyEquationCheckbox.isChecked()) {
+                    multiplyEquationCheckboxFlag = 5;
+                }
+                else
+                {
+                    multiplyEquationCheckboxFlag = 0;
                 }
 
             }});
@@ -138,6 +143,8 @@ public class QuizMenu extends AppCompatActivity {
         {
             @Override
             public void onClick(View view){
+
+                equationFlag = multiplyEquationCheckboxFlag + minusEquationCheckboxFlag + plusEquationCheckboxFlag;
 
                 if (TextUtils.isEmpty(playerNameEditText.getText().toString())) {
 
@@ -152,16 +159,6 @@ public class QuizMenu extends AppCompatActivity {
                     TextInputLayout til = (TextInputLayout) findViewById(R.id.text_input_layout);
                     til.setErrorEnabled(true);
                     til.setError("Wpisz swoje imię");
-                    errorFlag = true;
-                }
-                if (!plusEquationCheckbox.isChecked() && !minusEquationCheckbox.isChecked())
-                {
-                    generatePopup(1);
-                    errorFlag = true;
-                }
-                if (equationFlag > 3 || equationFlag <0)
-                {
-                    generatePopup(0);
                     errorFlag = true;
                 }
                 else {

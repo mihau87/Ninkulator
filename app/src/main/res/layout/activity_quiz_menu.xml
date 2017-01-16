@@ -84,6 +84,11 @@
             android:layout_height="wrap_content"
             android:text="Odejmowanie"
             android:id="@+id/minusEquationCheckbox"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Możenie"
+            android:id="@+id/multiplyEquationCheckbox"/>
             </LinearLayout>
 
     </LinearLayout>
